@@ -63,13 +63,6 @@ The goal was to answer real-world business questions related to customer spendin
 
 ---
 
-## 🚀 Outcome
 
-This project demonstrates the ability to:
-- Import and clean raw data from Excel
-- Create normalized relational tables
-- Write analytical SQL queries using JOINs, GROUP BY, HAVING, and date functions
-- Generate business insights from structured data
 
-Useful for roles such as **Business Analyst**, **Data Analyst**, or **Operations Analyst**.
 
