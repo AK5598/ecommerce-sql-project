@@ -139,3 +139,23 @@ left join ( select order_item_id, order_id, OI.product_id, quantity, price, (qua
 as temp1 on O.order_id = temp1.order_id) as temp2 on C.customer_id = temp2.customer_id
 group by C.customer_id 
 order by total_revenue desc) as temp4), 2) as top_5_contribution;
+
+---------12.Which regions has highest percentage of late deliveris over past 3 months----------
+---Description: showing delayed deliveries per region with delay percentage
+--- Tables used: Trucks, shipments
+
+select region, count(delivery_status) as delayed_number, round(100 * count(*)/sum(count(*)) over(), 2) as percentage_delayed from(
+select T.truck_id, region, shipped_date, delivery_status from trucks as T join shipments as S on T.truck_id = S.truck_id
+where delivery_status = 'delayed' and shipped_date > '2025-03-01 00:00:00') as temp
+group by region;
+
+
+---------------13.How many customers placed a second order within 30 days of their first?------------------
+---Description: showing customers who orders frequently
+---Tables used: orders
+
+select customer_id, days_between_order from(
+select customer_id, order_date, lag(order_date) over(partition by customer_id order by order_date) as previous_date, 
+datediff(order_date, lag(order_date) over(partition by customer_id order by order_date)) as days_between_order
+from orders order by customer_id) as temp
+where days_between_order<= 30;
